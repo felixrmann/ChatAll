@@ -91,6 +91,7 @@ public class Window extends JFrame {
         setVisible(true);
     }
 
+
     private void makeTextPanel() {
         textPanel.setLayout(new BorderLayout());
         textPanel.add(sendPanel, BorderLayout.SOUTH);

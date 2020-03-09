@@ -9,9 +9,8 @@ public class User {
     private String name;
     private GetMyIPAddress ip;
 
-    public User(String name, GetMyIPAddress ip){
+    public User(String name){
         this.name = name;
-        this.ip = ip;
     }
 
     public String getName() {
