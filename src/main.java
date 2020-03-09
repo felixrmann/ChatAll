@@ -7,6 +7,6 @@
 public class main {
 
     public static void main(String[] args) {
-        new Window(new User("Gergoe"));
+        new LogInGUI();
     }
 }
