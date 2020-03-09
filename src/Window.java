@@ -23,6 +23,7 @@ public class Window extends JFrame {
     private JPanel leftContentPanel;
 
     private JButton chatbutton;
+    private JButton chatbutton2;
 
     private JPanel textPanel, sendPanel;
     private JScrollPane scrollPane;
@@ -46,6 +47,7 @@ public class Window extends JFrame {
         leftContentPanel = new JPanel();
 
         chatbutton = new JButton();
+        chatbutton2 = new JButton();
 
         textPanel = new JPanel();
         textAreaInput = new JTextArea(5, 30);
@@ -79,6 +81,7 @@ public class Window extends JFrame {
         makeLeftPanel();
         makeMainPanel();
         makeTextPanel();
+        makeLeftContentPanel();
 
         getContentPane().add(mainPanel);
         setResizable(false);
@@ -111,6 +114,15 @@ public class Window extends JFrame {
         leftPanel.add(leftTitelLabel, BorderLayout.NORTH);
         leftPanel.add(leftContentPanel, BorderLayout.CENTER);
     }
+
+    private void makeLeftContentPanel(){
+        leftContentPanel.setLayout(new BoxLayout(leftContentPanel, BoxLayout.Y_AXIS));
+
+        leftContentPanel.add(chatbutton);
+        leftContentPanel.add(chatbutton2);
+
+    }
+
 
     private void makeMainPanel() {
         mainPanel.setLayout(new BorderLayout());
