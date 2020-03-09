@@ -5,6 +5,7 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.font.TextAttribute;
 import java.util.Map;
+import java.util.Vector;
 
 /**
  * @author Felix Mann
@@ -21,6 +22,8 @@ public class Window extends JFrame {
     private JLabel leftTitelLabel;
     private JPanel leftContentPanel;
 
+    private JButton chatbutton;
+
     private JPanel textPanel, sendPanel;
     private JScrollPane scrollPane;
     private JTextArea textAreaInput;
@@ -28,13 +31,21 @@ public class Window extends JFrame {
     private JButton sendButton;
     private JTextArea textOutArea;
 
+    private Vector<User> users;
 
-    public Window() {
+
+    public Window(User user) {
+        users = new Vector<>();
+
+        users.add(user);
+
         mainPanel = new JPanel();
 
         leftPanel = new JPanel();
         leftTitelLabel = new JLabel();
         leftContentPanel = new JPanel();
+
+        chatbutton = new JButton();
 
         textPanel = new JPanel();
         textAreaInput = new JTextArea(5, 30);
@@ -56,14 +67,14 @@ public class Window extends JFrame {
                 }
             }
         });
+
         sendButton.addActionListener(e -> {
-            textOutArea.setText(textOutArea.getText() + textAreaInput.getText());
+            textOutArea.setText(textOutArea.getText() + textAreaInput.getText()+ "\n");
             textAreaInput.setText(null);
             textAreaInput.grabFocus();
         });
 
         splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, leftPanel, textPanel);
-
 
         makeLeftPanel();
         makeMainPanel();
@@ -106,7 +117,20 @@ public class Window extends JFrame {
         mainPanel.add(splitPane, BorderLayout.CENTER);
     }
 
-    private void sendText(String who, String text) {
+    private void sendText(User user, String text) {
 
+    }
+
+    public void addUser(User user){
+        users.add(user);
+    }
+
+    public void changeUserName(User user, String newName){
+        user.getName();
+        user.setName(newName);
+    }
+
+    public User getUser(String name){
+        return null;
     }
 }
