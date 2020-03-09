@@ -119,7 +119,7 @@ public class Window extends JFrame {
     }
 
     private void makeLeftContentPanel(){
-        leftContentPanel.setLayout(new BoxLayout(leftContentPanel, BoxLayout.Y_AXIS));
+        leftContentPanel.setLayout(new GridLayout(3,1));
 
         leftContentPanel.add(chatbutton);
         leftContentPanel.add(chatbutton2);
