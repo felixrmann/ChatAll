@@ -63,6 +63,7 @@ public class Window extends JFrame {
                 }
             }
         });
+
         sendButton.addActionListener(e -> {
             textOutArea.setText(textOutArea.getText() + textAreaInput.getText());
             textAreaInput.setText(null);
@@ -70,7 +71,6 @@ public class Window extends JFrame {
         });
 
         splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, leftPanel, textPanel);
-
 
         makeLeftPanel();
         makeMainPanel();
