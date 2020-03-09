@@ -35,6 +35,7 @@ public class Window extends JFrame {
     private Border border;
     private JButton sendButton;
     private JTextArea textOutArea;
+    private JLabel yourName;
 
     private Vector<User> users;
 
@@ -50,8 +51,8 @@ public class Window extends JFrame {
         leftTitelLabel = new JLabel();
         leftContentPanel = new JPanel();
 
-        chatbutton = new JButton();
-        chatbutton2 = new JButton();
+        chatbutton = new JButton("chat 1");
+        chatbutton2 = new JButton("chat 2");
 
         textPanel = new JPanel();
         textAreaInput = new JTextArea(5, 30);
@@ -63,6 +64,8 @@ public class Window extends JFrame {
         textOutArea.setEditable(false);
         scrollPane = new JScrollPane(textOutArea);
 
+        yourName = new JLabel();
+        yourName.setText(user.getName());
 
         textAreaInput.addKeyListener(new KeyAdapter() {
             @Override
@@ -80,10 +83,23 @@ public class Window extends JFrame {
             textAreaInput.grabFocus();
         });
 
-        //Generiert File beim Schliessen den Fensters
+        //sichert File bei Chat wechsel
+        chatbutton2.addActionListener(e -> {
+            if(e.getSource() == chatbutton2){
+
+            }
+        });
+
+        chatbutton.addActionListener(e -> {
+            if(e.getSource() == chatbutton){
+
+            }
+        });
+
+        //sichert File beim Schliessen den Fensters
         addWindowListener(new WindowAdapter() {
             public void windowClosing(WindowEvent e) {
-                generateFile();
+                generateFileChat1();
             }
         });
 
@@ -128,10 +144,11 @@ public class Window extends JFrame {
     }
 
     private void makeLeftContentPanel(){
-        leftContentPanel.setLayout(new GridLayout(3,1));
+        leftContentPanel.setLayout(new GridLayout(4,1));
 
         leftContentPanel.add(chatbutton);
         leftContentPanel.add(chatbutton2);
+        leftContentPanel.add(yourName);
 
     }
 
@@ -158,9 +175,17 @@ public class Window extends JFrame {
         return null;
     }
 
-    public void generateFile() {
-        try (PrintWriter out = new PrintWriter("text.txt")) {
+    public void generateFileChat2() {
+        try (PrintWriter out = new PrintWriter("text"+chatbutton2.getText()+".txt")) {
             out.print(textOutArea.getText());
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void generateFileChat1() {
+        try (PrintWriter out1 = new PrintWriter("text"+chatbutton.getText()+".txt")) {
+            out1.print(textOutArea.getText());
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }

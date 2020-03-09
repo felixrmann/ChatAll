@@ -39,14 +39,18 @@ public class LogInGUI extends JFrame {
         bottomButtonPanel= new JPanel();
         buttonPanel= new JPanel();
 
-        exit = new JButton("Exit");
+        exit = new JButton("Brexit");
+        exit.addActionListener(new ExitRequestListener(exit));
+        nameFeld = new JTextField();
         logIn = new JButton("Log-In");
+        logIn.setEnabled(false);
+        nameFeld.addKeyListener(new TextFieldValidListener(logIn,nameFeld));
+        logIn.addActionListener(new LoginRequestListener(logIn, nameFeld, this));
 
         nameIpPanel = new JPanel();
         nameIpContentPanel = new JPanel();
-
         name = new JLabel("Name: ");
-        nameFeld = new JTextField();
+
         ip = new JLabel("IP: ");
         ipFeld = new JLabel("Zukünftige IP");
         headLogIn = new JLabel("Log-In:");
@@ -84,7 +88,8 @@ public class LogInGUI extends JFrame {
 
     }
 
-    public static void main(String[] args) {
-        new LogInGUI();
+    @Override
+    public String getName() {
+        return nameFeld.getText();
     }
 }
