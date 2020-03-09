@@ -3,6 +3,8 @@ import javax.swing.border.Border;
 import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.awt.font.TextAttribute;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
@@ -76,6 +78,13 @@ public class Window extends JFrame {
             textOutArea.setText(textOutArea.getText() + textAreaInput.getText()+ "\n");
             textAreaInput.setText(null);
             textAreaInput.grabFocus();
+        });
+
+        //Generiert File beim Schliessen den Fensters
+        addWindowListener(new WindowAdapter() {
+            public void windowClosing(WindowEvent e) {
+                generateFile();
+            }
         });
 
         splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, leftPanel, textPanel);
