@@ -7,9 +7,11 @@
 public class User {
 
     private String name;
+    private GetMyIPAddress ip;
 
-    public User(String name){
+    public User(String name, GetMyIPAddress ip){
         this.name = name;
+        this.ip = ip;
     }
 
     public String getName() {
@@ -18,5 +20,13 @@ public class User {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public GetMyIPAddress setIp() {
+        ip = new GetMyIPAddress();
+        return ip;
+    }
+    public GetMyIPAddress getIp(){
+        return ip;
     }
 }
