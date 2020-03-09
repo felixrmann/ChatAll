@@ -5,6 +5,7 @@ import java.net.Socket;
 import java.util.HashSet;
 import java.util.Scanner;
 import java.util.Set;
+import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 public class Server {
@@ -14,8 +15,8 @@ public class Server {
 
     public static void main(String[] args) throws Exception {
         System.out.println("The chat server is running...");
-        var pool = Executors.newFixedThreadPool(500);
-        try (var listener = new ServerSocket(59001)) {
+        ExecutorService pool = Executors.newFixedThreadPool(500);
+        try (ServerSocket listener = new ServerSocket(59001)) {
             while (true) {
                 pool.execute(new Handler(listener.accept()));
             }
@@ -42,7 +43,7 @@ public class Server {
                         return;
                     }
                     synchronized (names) {
-                        if (!name.isBlank() && !names.contains(name)) {
+                        if (!name.isEmpty() && !names.contains(name)) {
                             names.add(name);
                             break;
                         }
