@@ -4,6 +4,8 @@ import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.font.TextAttribute;
+import java.io.FileNotFoundException;
+import java.io.PrintWriter;
 import java.util.Map;
 import java.util.Vector;
 
@@ -144,5 +146,18 @@ public class Window extends JFrame {
 
     public User getUser(String name){
         return null;
+    }
+
+    public String getText(JTextArea textOutArea) {
+        return textOutArea.getText();
+    }
+
+    public void generateFile() {
+        try {
+            PrintWriter out = new PrintWriter("text.txt");
+            out.print(textOutArea.getText());
+        } catch(FileNotFoundException e) {
+            e.printStackTrace();
+        }
     }
 }
