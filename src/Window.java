@@ -35,6 +35,7 @@ public class Window extends JFrame {
     private Border border;
     private JButton sendButton;
     private JTextArea textOutArea;
+    private JLabel yourName;
 
     private Vector<User> users;
 
@@ -63,6 +64,8 @@ public class Window extends JFrame {
         textOutArea.setEditable(false);
         scrollPane = new JScrollPane(textOutArea);
 
+        yourName = new JLabel();
+        yourName.setText(user.getName());
 
         textAreaInput.addKeyListener(new KeyAdapter() {
             @Override
@@ -145,6 +148,7 @@ public class Window extends JFrame {
 
         leftContentPanel.add(chatbutton);
         leftContentPanel.add(chatbutton2);
+        leftContentPanel.add(yourName);
 
     }
 
