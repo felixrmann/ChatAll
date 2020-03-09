@@ -22,6 +22,8 @@ public class Window extends JFrame {
     private JLabel leftTitelLabel;
     private JPanel leftContentPanel;
 
+    private JButton chatbutton;
+
     private JPanel textPanel, sendPanel;
     private JScrollPane scrollPane;
     private JTextArea textAreaInput;
@@ -42,6 +44,8 @@ public class Window extends JFrame {
         leftPanel = new JPanel();
         leftTitelLabel = new JLabel();
         leftContentPanel = new JPanel();
+
+        chatbutton = new JButton();
 
         textPanel = new JPanel();
         textAreaInput = new JTextArea(5, 30);
@@ -64,7 +68,7 @@ public class Window extends JFrame {
             }
         });
         sendButton.addActionListener(e -> {
-            textOutArea.setText(textOutArea.getText() + textAreaInput.getText());
+            textOutArea.setText(textOutArea.getText() + textAreaInput.getText()+ "\n");
             textAreaInput.setText(null);
             textAreaInput.grabFocus();
         });
@@ -122,6 +126,7 @@ public class Window extends JFrame {
     }
 
     public void changeUserName(User user, String newName){
+        user.getName();
         user.setName(newName);
     }
 
