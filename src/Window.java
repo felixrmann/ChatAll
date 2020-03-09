@@ -158,15 +158,10 @@ public class Window extends JFrame {
         return null;
     }
 
-    public String getText(JTextArea textOutArea) {
-        return textOutArea.getText();
-    }
-
     public void generateFile() {
-        try {
-            PrintWriter out = new PrintWriter("text.txt");
+        try (PrintWriter out = new PrintWriter("text.txt")) {
             out.print(textOutArea.getText());
-        } catch(FileNotFoundException e) {
+        } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
     }
