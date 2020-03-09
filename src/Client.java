@@ -46,7 +46,7 @@ public class Client {
             out = new PrintWriter(socket.getOutputStream(), true);
 
             while (in.hasNextLine()) {
-                var line = in.nextLine();
+                String line = in.nextLine();
                 if (line.startsWith("SUBMITNAME")) {
                     out.println(getName());
                 } else if (line.startsWith("NAMEACCEPTED")) {
