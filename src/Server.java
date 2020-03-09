@@ -1,28 +1,87 @@
-/**
- * @author Felix Mann
- * @version 1.0
- * @since 2020-März-09
- */
-
-import java.net.*;
-import java.io.*;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.net.ServerSocket;
+import java.net.Socket;
+import java.util.HashSet;
+import java.util.Scanner;
+import java.util.Set;
+import java.util.concurrent.Executors;
 
 public class Server {
-    public static void main (String []args) {
-        try {
-            ServerSocket ss = new ServerSocket(1999);
-            Socket s = ss.accept();
-            DataOutputStream dos = new DataOutputStream(s.getOutputStream());
-            DataInputStream dis = new DataInputStream(s.getInputStream());
-            BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-            while(!br.readLine().equals("quit")) {
-                System.out.println("She says: " + dis.readUTF());
-                dos.writeUTF(br.readLine());
+
+    private static final Set<String> names = new HashSet<>();
+    private static Set<PrintWriter> writers = new HashSet<>();
+
+    public static void main(String[] args) throws Exception {
+        System.out.println("The chat server is running...");
+        var pool = Executors.newFixedThreadPool(500);
+        try (var listener = new ServerSocket(59001)) {
+            while (true) {
+                pool.execute(new Handler(listener.accept()));
             }
-            ss.close();
-        } catch (Exception ie) {
-            ie.printStackTrace();
+        }
+    }
+
+    private static class Handler implements Runnable {
+        private String name;
+        private Socket socket;
+        private PrintWriter out;
+
+        Handler(Socket socket) {
+            this.socket = socket;
+        }
+
+        public void run() {
+            try {
+                Scanner in = new Scanner(socket.getInputStream());
+                out = new PrintWriter(socket.getOutputStream(), true);
+                while (true) {
+                    out.println("SUBMITNAME");
+                    name = in.nextLine();
+                    if (name == null) {
+                        return;
+                    }
+                    synchronized (names) {
+                        if (!name.isBlank() && !names.contains(name)) {
+                            names.add(name);
+                            break;
+                        }
+                    }
+                }
+
+                out.println("NAMEACCEPTED " + name);
+                for (PrintWriter writer : writers) {
+                    writer.println("MESSAGE " + name + " has joined");
+                }
+                writers.add(out);
+
+                while (true) {
+                    String input = in.nextLine();
+                    if (input.toLowerCase().startsWith("/quit")) {
+                        return;
+                    }
+                    for (PrintWriter writer : writers) {
+                        writer.println("MESSAGE " + name + ": " + input);
+                    }
+                }
+            } catch (Exception e) {
+                System.out.println(e);
+            } finally {
+                if (out != null) {
+                    writers.remove(out);
+                }
+                if (name != null) {
+                    System.out.println(name + " is leaving");
+                    names.remove(name);
+                    for (PrintWriter writer : writers) {
+                        writer.println("MESSAGE " + name + " has left");
+                    }
+                }
+                try {
+                    socket.close();
+                } catch (IOException ignored) {
+                }
+            }
         }
     }
 }
-
