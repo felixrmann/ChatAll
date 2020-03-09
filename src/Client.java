@@ -40,6 +40,7 @@ public class Client {
 
     private void run() throws IOException {
         try {
+
             var socket = new Socket(serverAddress, 59001);
             Scanner in = new Scanner(socket.getInputStream());
             out = new PrintWriter(socket.getOutputStream(), true);
@@ -54,6 +55,7 @@ public class Client {
                 } else if (line.startsWith("MESSAGE")) {
                     messageArea.append(line.substring(8) + "\n");
                 }
+
             }
         } finally {
             frame.setVisible(false);

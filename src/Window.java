@@ -3,6 +3,8 @@ import javax.swing.border.Border;
 import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.awt.font.TextAttribute;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
@@ -33,6 +35,7 @@ public class Window extends JFrame {
     private Border border;
     private JButton sendButton;
     private JTextArea textOutArea;
+    private JLabel yourName;
 
     private Vector<User> users;
 
@@ -61,6 +64,8 @@ public class Window extends JFrame {
         textOutArea.setEditable(false);
         scrollPane = new JScrollPane(textOutArea);
 
+        yourName = new JLabel();
+        yourName.setText(user.getName());
 
         textAreaInput.addKeyListener(new KeyAdapter() {
             @Override
@@ -78,6 +83,13 @@ public class Window extends JFrame {
             textAreaInput.grabFocus();
         });
 
+        //Generiert File beim Schliessen den Fensters
+        addWindowListener(new WindowAdapter() {
+            public void windowClosing(WindowEvent e) {
+                generateFile();
+            }
+        });
+
         splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, leftPanel, textPanel);
 
         makeLeftPanel();
@@ -92,6 +104,7 @@ public class Window extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setVisible(true);
     }
+
 
     private void makeTextPanel() {
         textPanel.setLayout(new BorderLayout());
@@ -118,10 +131,11 @@ public class Window extends JFrame {
     }
 
     private void makeLeftContentPanel(){
-        leftContentPanel.setLayout(new BoxLayout(leftContentPanel, BoxLayout.Y_AXIS));
+        leftContentPanel.setLayout(new GridLayout(3,1));
 
         leftContentPanel.add(chatbutton);
         leftContentPanel.add(chatbutton2);
+        leftContentPanel.add(yourName);
 
     }
 
@@ -148,15 +162,10 @@ public class Window extends JFrame {
         return null;
     }
 
-    public String getText(JTextArea textOutArea) {
-        return textOutArea.getText();
-    }
-
     public void generateFile() {
-        try {
-            PrintWriter out = new PrintWriter("text.txt");
+        try (PrintWriter out = new PrintWriter("text.txt")) {
             out.print(textOutArea.getText());
-        } catch(FileNotFoundException e) {
+        } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
     }
