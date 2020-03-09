@@ -6,9 +6,6 @@
 
 public class main {
     public static void main(String[] args) {
-        Window chat = new Window(new User("Peter"));
-        chat.addUser(new User("Leo"));
-        chat.addUser(new User("Gergos"));
-        chat.addUser(new User("Maddin"));
+
     }
 }

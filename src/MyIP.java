@@ -6,10 +6,9 @@
 
 import java.net.InetAddress;
 
-class GetMyIPAddress
-{
-    public static void main(String args[]) throws Exception
-    {
+class GetMyIPAddress {
+
+    public static void main(String args[]) throws Exception {
         /*
            public static InetAddress getLocalHost()
            throws UnknownHostException: Returns the address
