@@ -23,8 +23,8 @@ public class Client {
 
         textField.setEditable(false);
         messageArea.setEditable(false);
-        frame.getContentPane().add(textField, BorderLayout.SOUTH);
-        frame.getContentPane().add(new JScrollPane(messageArea), BorderLayout.CENTER);
+        frame.getContentPane().add(textField, BorderLayout.SOUTH);                      //eingabe
+        frame.getContentPane().add(new JScrollPane(messageArea), BorderLayout.CENTER); // ganze pannel
         frame.pack();
 
         textField.addActionListener(e -> {
@@ -34,7 +34,7 @@ public class Client {
     }
 
     private String getName() {
-        return JOptionPane.showInputDialog(frame, "Choose a screen name:", "Screen name selection",
+        return JOptionPane.showInputDialog(frame, "Choose a screen name:", "Screen name selection", // log in mit name
                 JOptionPane.PLAIN_MESSAGE);
     }
 
@@ -73,4 +73,6 @@ public class Client {
         client.frame.setVisible(true);
         client.run();
     }
+
+
 }
