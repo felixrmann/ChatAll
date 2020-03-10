@@ -5,6 +5,7 @@ import java.net.Socket;
 import java.util.HashSet;
 import java.util.Scanner;
 import java.util.Set;
+import java.util.Timer;
 import java.util.concurrent.Executors;
 
 public class Server {
@@ -17,12 +18,13 @@ public class Server {
         var pool = Executors.newFixedThreadPool(500);
         try (var listener = new ServerSocket(59001)) {
             while (true) {
+                Timer timer = new Timer();
                 pool.execute(new Handler(listener.accept()));
             }
         }
     }
 
-    private static class Handler implements Runnable {
+    public static class Handler implements Runnable {
         private String name;
         private Socket socket;
         private PrintWriter out;
