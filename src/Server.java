@@ -42,7 +42,7 @@ public class Server {
                         return;
                     }
                     synchronized (names) {
-                        if (!name.isBlank() && !names.contains(name)) {
+                        if (!name.isEmpty() && !names.contains(name)) {
                             names.add(name);
                             break;
                         }

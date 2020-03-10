@@ -31,7 +31,6 @@ public class LogInGUI extends JFrame {
     public LogInGUI() throws HeadlessException {
 
         super("Log-In");
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         allContentPanel = new JPanel();
         headPannel = new JPanel();
@@ -85,7 +84,7 @@ public class LogInGUI extends JFrame {
         setSize(400,220);
         setVisible(true);
         setResizable(false);
-
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
 
     @Override
