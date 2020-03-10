@@ -8,17 +8,17 @@ import java.awt.event.ActionListener;
  * @since 2020-März-09
  */
 
-public class ExitRequestListener implements ActionListener {
+public class  ExitRequestListener implements ActionListener {
 
-    JButton exit;
+    JButton exit2;
 
     public ExitRequestListener(JButton exit) {
-        this.exit = exit;
+        this.exit2 = exit;
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        if (e.getSource() == exit) {
+        if (e.getSource() == exit2) {
             System.exit(0);
         }
     }
