@@ -51,7 +51,7 @@ public class LogInGUI extends JFrame {
         name = new JLabel("Name: ");
 
         ip = new JLabel("IP: ");
-        ipFeld = new JLabel("Zukünftige IP");
+        ipFeld = new JLabel(new MyIP().toString());
         headLogIn = new JLabel("Log-In:");
 
         getContentPane().add(allContentPanel);
@@ -89,6 +89,6 @@ public class LogInGUI extends JFrame {
 
     @Override
     public String getName() {
-        return nameFeld.getText();
+        return name.getText();
     }
 }
