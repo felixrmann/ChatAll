@@ -3,42 +3,31 @@ import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.Scanner;
 
-import java.awt.BorderLayout;
-import javax.swing.JFrame;
-import javax.swing.JOptionPane;
-import javax.swing.JScrollPane;
-import javax.swing.JTextArea;
-import javax.swing.JTextField;
-
 public class Client {
 
-    private String serverAddress;
+    private Window window;
     private PrintWriter out;
-    private JFrame frame = new JFrame("Chatter");
-    private JTextField textField = new JTextField(50);
-    private JTextArea messageArea = new JTextArea(16, 50);
+    private String name;
+    private String serverAddress;
 
-    private Client(String serverAddress) {
-        this.serverAddress = serverAddress;
 
-        textField.setEditable(false);
-        messageArea.setEditable(false);
-        frame.getContentPane().add(textField, BorderLayout.SOUTH);                      //eingabe
-        frame.getContentPane().add(new JScrollPane(messageArea), BorderLayout.CENTER); // ganze pannel
-        frame.pack();
+    private Client() {
+        window = new Window();
 
-        textField.addActionListener(e -> {
-            out.println(textField.getText());
-            textField.setText("");
+        name = window.getName();
+        serverAddress = window.getIp();
+
+        window.textFieldInput.setEditable(false);
+        window.textOutArea.setEditable(false);
+
+        window.textFieldInput.addActionListener(e -> {
+            out.println(window.textFieldInput.getText());
+            window.textFieldInput.setText("");
         });
     }
 
-    private String getName() {
-        return JOptionPane.showInputDialog(frame, "Choose a screen name:", "Screen name selection", // log in mit name
-                JOptionPane.PLAIN_MESSAGE);
-    }
-
     private void run() throws IOException {
+        window.frame.setVisible(true);
         try {
 
             Socket socket = new Socket(serverAddress, 59001);
@@ -48,29 +37,21 @@ public class Client {
             while (in.hasNextLine()) {
                 String line = in.nextLine();
                 if (line.startsWith("SUBMITNAME")) {
-                    out.println(getName());
+                    out.println(name);
                 } else if (line.startsWith("NAMEACCEPTED")) {
-                    this.frame.setTitle("Chatter - " + line.substring(13));
-                    textField.setEditable(true);
+                    window.textFieldInput.setEditable(true);
                 } else if (line.startsWith("MESSAGE")) {
-                    messageArea.append(line.substring(8) + "\n");
+                    window.textOutArea.append(line.substring(8) + "\n");
                 }
-
             }
         } finally {
-            frame.setVisible(false);
-            frame.dispose();
+            window.frame.setVisible(false);
+            window.frame.dispose();
         }
     }
 
     public static void main(String[] args) throws Exception {
-        if (args.length != 1) {
-            System.err.println("Pass the server IP as the sole command line argument");
-            return;
-        }
-        Client client = new Client(args[0]);
-        client.frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        client.frame.setVisible(true);
+        Client client = new Client();
         client.run();
     }
 

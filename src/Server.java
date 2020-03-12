@@ -2,10 +2,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.HashSet;
-import java.util.Scanner;
-import java.util.Set;
-import java.util.Timer;
+import java.util.*;
 import java.util.concurrent.Executors;
 
 public class Server {
@@ -18,7 +15,6 @@ public class Server {
         var pool = Executors.newFixedThreadPool(500);
         try (var listener = new ServerSocket(59001)) {
             while (true) {
-                Timer timer = new Timer();
                 pool.execute(new Handler(listener.accept()));
             }
         }
@@ -52,6 +48,7 @@ public class Server {
                 }
 
                 out.println("NAMEACCEPTED " + name);
+                System.out.println("Hello " + name);
                 for (PrintWriter writer : writers) {
                     writer.println("MESSAGE " + name + " has joined");
                 }

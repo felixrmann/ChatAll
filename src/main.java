@@ -1,3 +1,5 @@
+import javax.swing.*;
+
 /**
  * @author Felix Mann
  * @version 1.0
@@ -5,8 +7,7 @@
  */
 
 public class main {
-
     public static void main(String[] args) {
-        new LogInGUI();
+        new LogInGUI(new JFrame());
     }
 }

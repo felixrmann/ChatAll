@@ -7,8 +7,11 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.font.TextAttribute;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.PrintWriter;
+import java.net.Socket;
 import java.util.Map;
+import java.util.Scanner;
 import java.util.Vector;
 
 /**
@@ -17,33 +20,42 @@ import java.util.Vector;
  * @since 2020-März-05
  */
 
-public class Window extends JFrame {
+public class Window {
 
-    private JPanel mainPanel;
-    private JSplitPane splitPane;
+    public JFrame frame;
 
-    private JPanel leftPanel;
-    private JLabel leftTitelLabel;
-    private JPanel leftContentPanel;
+    public JPanel mainPanel;
+    public JSplitPane splitPane;
 
-    private JButton chatbutton;
-    private JButton chatbutton2;
+    public JPanel leftPanel;
+    public JLabel leftTitelLabel;
+    public JPanel leftContentPanel;
 
-    private JPanel textPanel, sendPanel;
-    private JScrollPane scrollPane;
-    private JTextArea textAreaInput;
-    private Border border;
-    private JButton sendButton;
-    private JTextArea textOutArea;
-    private JLabel yourName;
+    public JButton chatbutton;
+    public JButton chatbutton2;
 
-    private Vector<User> users;
+    public JPanel textPanel, sendPanel;
+    public JScrollPane scrollPane;
+    public JTextField textFieldInput;
+    public Border border;
+    public JButton sendButton;
+    public JTextArea textOutArea;
+    public JLabel yourName;
+    private static String name;
+    private static String ip;
+
+    public Vector<User> users;
+    public LogInGUI logInGUI;
 
 
-    public Window(User user) {
+    public Window() {
+        frame = new JFrame();
+        /*
         users = new Vector<>();
 
         users.add(user);
+
+         */
 
         mainPanel = new JPanel();
 
@@ -55,9 +67,9 @@ public class Window extends JFrame {
         chatbutton2 = new JButton("chat 2");
 
         textPanel = new JPanel();
-        textAreaInput = new JTextArea(5, 30);
+        textFieldInput = new JTextField(30);
         border = BorderFactory.createLineBorder(Color.BLACK, 2);
-        textAreaInput.setBorder(border);
+        textFieldInput.setBorder(border);
         sendButton = new JButton("Send");
         sendPanel = new JPanel();
         textOutArea = new JTextArea(20, 20);
@@ -65,23 +77,7 @@ public class Window extends JFrame {
         scrollPane = new JScrollPane(textOutArea);
 
         yourName = new JLabel();
-        yourName.setText(user.getName());
-
-        textAreaInput.addKeyListener(new KeyAdapter() {
-            @Override
-            public void keyPressed(KeyEvent e) {
-                if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-                    textOutArea.setText(textOutArea.getText() + textAreaInput.getText() + "\n");
-                    textAreaInput.setText(null);
-                }
-            }
-        });
-
-        sendButton.addActionListener(e -> {
-            textOutArea.setText(textOutArea.getText() + textAreaInput.getText()+ "\n");
-            textAreaInput.setText(null);
-            textAreaInput.grabFocus();
-        });
+        //yourName.setText(user.getName());
 
         //sichert File bei Chat wechsel
         chatbutton2.addActionListener(e -> {
@@ -97,7 +93,7 @@ public class Window extends JFrame {
         });
 
         //sichert File beim Schliessen den Fensters
-        addWindowListener(new WindowAdapter() {
+        frame.addWindowListener(new WindowAdapter() {
             public void windowClosing(WindowEvent e) {
                 generateFileChat1();
             }
@@ -110,12 +106,15 @@ public class Window extends JFrame {
         makeTextPanel();
         makeLeftContentPanel();
 
-        getContentPane().add(mainPanel);
-        setResizable(false);
-        setTitle("Messanger");
-        setSize(500, 500);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setVisible(true);
+        frame.getContentPane().add(mainPanel);
+        frame.setResizable(false);
+        frame.setSize(500, 500);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setVisible(true);
+
+        logInGUI = new LogInGUI(frame);
+        frame.setTitle(name);
+        yourName.setText(name);
     }
 
 
@@ -125,7 +124,7 @@ public class Window extends JFrame {
         textPanel.add(scrollPane, BorderLayout.NORTH);
 
         sendPanel.setLayout(new BorderLayout());
-        sendPanel.add(textAreaInput, BorderLayout.CENTER);
+        sendPanel.add(textFieldInput, BorderLayout.CENTER);
         sendPanel.add(sendButton, BorderLayout.EAST);
     }
 
@@ -167,7 +166,6 @@ public class Window extends JFrame {
     }
 
     public void changeUserName(User user, String newName){
-        user.getName();
         user.setName(newName);
     }
 
@@ -189,5 +187,21 @@ public class Window extends JFrame {
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
+    }
+
+    public static void setName(String name) {
+        Window.name = name;
+    }
+
+    public static void setIp(String ip) {
+        Window.ip = ip;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getIp() {
+        return ip;
     }
 }

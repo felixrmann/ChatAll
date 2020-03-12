@@ -1,6 +1,7 @@
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 
 /**
  * @author Gergö Dusza
@@ -25,9 +26,7 @@ public class LoginRequestListener implements ActionListener {
         if (field.getText().length()>40){
             new LogInPopUp(parent);
         } else if (e.getSource() == login){
-            System.out.println(field.getText());
-            new Window(new User(field.getText()));
+            new Window();
         }
-
     }
 }

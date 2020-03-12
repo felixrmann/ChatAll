@@ -1,5 +1,7 @@
 import javax.swing.*;
 import java.awt.*;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 
 /**
  * @author Gergö Dusza
@@ -7,7 +9,7 @@ import java.awt.*;
  * @since 2020-März-09
  */
 
-public class LogInGUI extends JFrame {
+public class LogInGUI extends JDialog {
 
     private JPanel allContentPanel;
     private JPanel headPannel;
@@ -28,9 +30,8 @@ public class LogInGUI extends JFrame {
     private JLabel ipFeld;
 
 
-    public LogInGUI() throws HeadlessException {
-
-        super("Log-In");
+    public LogInGUI(JFrame parent) throws HeadlessException {
+        super(parent, "Log-In", true);
 
         allContentPanel = new JPanel();
         headPannel = new JPanel();
@@ -43,15 +44,21 @@ public class LogInGUI extends JFrame {
         nameFeld = new JTextField();
         logIn = new JButton("Log-In");
         logIn.setEnabled(false);
+
         nameFeld.addKeyListener(new TextFieldValidListener(logIn,nameFeld));
-        logIn.addActionListener(new LoginRequestListener(logIn, nameFeld, this));
+        logIn.addActionListener(e -> {
+            Window.setName(nameFeld.getText());
+            Window.setIp(getIp());
+
+            this.setVisible(false);
+        });
 
         nameIpPanel = new JPanel();
         nameIpContentPanel = new JPanel();
         name = new JLabel("Name: ");
 
         ip = new JLabel("IP: ");
-        ipFeld = new JLabel(new MyIP().toString());
+        ipFeld = new JLabel(getIp());
         headLogIn = new JLabel("Log-In:");
 
         getContentPane().add(allContentPanel);
@@ -84,11 +91,20 @@ public class LogInGUI extends JFrame {
         setSize(400,220);
         setVisible(true);
         setResizable(false);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(0);
     }
 
-    @Override
     public String getName() {
-        return name.getText();
+        return nameFeld.getText();
+    }
+
+    public String getIp() {
+        try {
+            InetAddress myIP = InetAddress.getLocalHost();
+            return myIP.getHostAddress();
+        } catch (UnknownHostException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 }
